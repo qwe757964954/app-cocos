@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.Material",
+  "_name": "",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "d8412eff-bd30-4784-b509-a3d895564fea",
+    "__expectedType__": "cc.EffectAsset"
+  },
+  "_techIdx": 0,
+  "_defines": [
+    {
+      "USE_LT": true,
+      "USE_RT": true,
+      "USE_RB": true,
+      "USE_LB": true
+    }
+  ],
+  "_states": [
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
+    }
+  ],
+  "_props": [
+    {
+      "objectSize": {
+        "__type__": "cc.Vec2",
+        "x": 500,
+        "y": 500
+      },
+      "radiusLT": 100,
+      "radiusRT": 100,
+      "radiusRB": 100,
+      "radiusLB": 100
+    }
+  ]
+}

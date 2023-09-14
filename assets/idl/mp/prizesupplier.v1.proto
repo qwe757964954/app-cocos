@@ -1,0 +1,264 @@
+syntax = "proto3";
+package tss.hall.prizesupplier.v1;  //协议包名
+option  go_package = "tss/hall/prizesupplier/v1;prizesupplier";
+
+import "proto/gogo/gogo.proto";
+import "proto/kit/kit.proto";
+import "proto/sync/sync.proto";
+import "base/base.proto";
+import "tss/common/common_define.proto";
+import "tss/hall/common/prizemall.proto";
+
+option (gogoproto.marshaler_all)           = true;
+option (gogoproto.unmarshaler_all)         = true;
+option (gogoproto.goproto_enum_prefix_all) = false;
+
+service PrizeSupplier {
+  rpc SaveSupplier(SaveSupplierReq)returns(SaveSupplierResp){
+    option (kitproto.exportclient) = 0;
+  }
+  //SwitchSupplier 切换供应商状态
+  rpc SwitchSupplierState(SwitchSupplierStateReq)returns(SwitchSupplierStateResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc ListSupplier(ListSupplierReq) returns(ListSupplierResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc DeleteSupplier(DeleteSupplierReq) returns(base.Void){
+    option (kitproto.exportclient) = 0;
+  }
+  //获得供应商信息
+  rpc GetSupplier(GetSupplierReq) returns(GetSupplierResp){
+    option (kitproto.exportclient) = 1;
+  }
+
+  rpc BatchGetSupplier(BatchGetSupplierReq) returns(BatchGetSupplierResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc SaveProduct(SaveProductReq) returns(SaveProductResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc ListProduct(ListProductReq) returns(ListProductResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc BatchGetProductTotal(BatchGetProductTotalReq) returns(BatchGetProductTotalResp){
+    option (kitproto.exportclient) = 0;
+  }
+  
+  rpc BatchGetProduct(BatchGetProductReq) returns(BatchGetProductResp){
+    option (kitproto.exportclient) = 0;
+  }
+ 
+  rpc SearchSupplier(SearchSupplierReq) returns(SearchSupplierResp){
+    option (kitproto.exportclient) = 1;
+  }
+
+  //通过用户信息获得自提点信息
+  rpc GetSupplierByUser(GetSupplierByUserReq) returns(GetSupplierByUserResp){
+    option (kitproto.exportclient) = 1;
+  }
+
+  rpc DecSupplierStock(DecSupplierStockReq)returns(DecSupplierStockResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc IncSupplierStock(IncSupplierStockReq)returns(IncSupplierStockResp){
+    option (kitproto.exportclient) = 0;
+  }
+
+  rpc DeleteProduct(DeleteProductReq) returns(base.Void){
+    option (kitproto.exportclient) = 0;
+  }
+};
+
+
+message Supplier{
+  //  ID
+  string ID = 1;
+  // 地址
+  tss.hall.common.Address addr = 2;
+  // 白名单用户ID
+  repeated int64 uids = 3;
+  // 启用开关
+  tss.common.SwitchState switch = 4;
+  // 创建时间
+  int64 createAt = 5;
+  // 更新时间
+  int64 updateAt = 6;
+  // 操作人
+  string operator = 7;
+  //删除时间
+  int64 deleteAt = 8;
+}
+
+message Product {
+  //货品IDz
+  int64 SKUID = 1;
+  // 供应商ID
+  string supplierID = 2;
+  // 供应商当前库存
+  int64 amt = 3;
+}
+
+//=====================================request && reponse =========================
+message SaveSupplierReq{
+  Supplier supplier = 1;
+}
+
+message SaveSupplierResp{
+  Supplier supplier = 1;
+}
+
+message ListSupplierReq{
+  int64 page = 1;
+  int64 pageSize = 2;
+  string name = 3;
+}
+
+message ListSupplierResp{
+ repeated Supplier suppliers = 1;
+  int64 total = 2;
+}
+
+message DeleteSupplierReq{
+  string ID = 1;
+}
+
+message SaveProductReq{
+  Product product = 1;
+}
+
+message SaveProductResp{
+  Product product = 1;
+}
+
+message ListProductReq{
+  string supplierID = 1;
+  int64 page = 2;
+  int64 pageSize = 3;
+}
+
+message ListProductResp{
+  repeated Product products = 1;
+  int64 total = 2;
+}
+
+message GetSupplierReq{
+  //按ID 查询
+  string supplierID = 1;
+  //或者按name查询
+  string name = 2;
+}
+
+message GetSupplierResp{
+  Supplier supplier = 1;
+}
+
+message ProductGroup{
+  string supplierID = 1;
+  int64 SKUID = 2;
+}
+
+
+message BatchGetProductReq{
+  repeated ProductGroup productGroups = 1;
+}
+
+message BatchGetProductResp{
+  repeated Product products = 1;
+}
+
+message BatchGetProductTotalReq{
+  repeated int64 skuID = 1;
+}
+
+message BatchGetProductTotalResp{
+  repeated Product  products = 1;
+}
+
+message SearchSupplierReq{
+  //省
+  string province = 1;
+  //市
+  string city = 2;
+  //经度
+  //float longtitude = 3;
+  // 纬度
+  //float latitude = 4;
+  repeated float coordinates = 3;
+  // 对应货品ID
+  int64 SKUID = 4;
+  //
+  int64 page = 5;
+  //
+  int64 pageSize = 6;
+  //货品数量
+  int64 skuAmt = 7;
+}
+
+message SearchSupplierView{
+  //自提点
+  Supplier supplier = 1;
+  //距离
+  int64 distence = 2;
+  //当前货品情况
+  Product product = 3;
+}
+
+message SearchSupplierResp{
+  repeated SearchSupplierView suppliers = 1;
+  int64 total = 2;
+}
+
+message GetSupplierByUserReq{
+  int64 uid = 1;
+}
+
+message GetSupplierByUserResp{
+  repeated Supplier suppliers = 1;
+}
+
+message DecSupplierStockReq{
+  string supplierID = 1;
+  int64 amt = 2;
+  int64 skuID = 3;
+}
+
+message DecSupplierStockResp{
+  int64 code = 1;
+}
+
+message BatchGetSupplierReq{
+  repeated string supplierIDs = 1;
+}
+
+message BatchGetSupplierResp{
+  repeated Supplier suppliers = 1;
+}
+
+message IncSupplierStockReq{
+  string supplierID = 1;
+  int64 amt = 2;
+  int64 skuID = 3;
+}
+
+message IncSupplierStockResp{}
+
+message SwitchSupplierStateReq{
+  string supplierID = 1;
+  tss.common.SwitchState switch = 2;
+}
+
+message SwitchSupplierStateResp{
+  Supplier supplier = 1;
+}
+
+message DeleteProductReq{
+  int64 SKUID = 1;
+  string supplierID = 2;
+}

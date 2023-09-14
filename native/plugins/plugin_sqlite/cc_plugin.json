@@ -1,0 +1,12 @@
+{
+    "name":"p_sqlite",
+    "version":"0.1.0",
+    "author":"zzp",
+    "engine-version":">=3.6.0",
+    "modules":[
+        {
+            "target":"p_sqlite"
+        }
+    ],
+    "platforms":["windows", "android", "mac", "ios"]
+}

@@ -1,0 +1,12 @@
+{
+    "name":"p_sensitive",
+    "version":"0.1.0",
+    "author":"cocosdemo",
+    "engine-version":">=3.6.0",
+    "modules":[
+        {
+            "target":"p_sensitive"
+        }
+    ],
+    "platforms":["windows", "android", "mac", "ios"]
+}

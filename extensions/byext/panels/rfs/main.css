@@ -1,0 +1,49 @@
+#mytext {
+    font-size: x-large;
+}
+
+.img_qr {
+    width: 100%;
+    min-width: 200px;
+    max-width: 300px;
+    aspect-ratio: 1;
+}
+
+.content_center {
+    text-align: center;
+}
+
+.content_start {
+    text-align: start;
+}
+
+select,
+option {
+    font-size: x-large;
+}
+
+body {
+    font-size: large;
+}
+
+ul {
+    text-align: start;
+    list-style: circle;
+    list-style-type: circle;
+}
+
+ul li {
+    list-style: circle;
+    list-style-type: circle;
+}
+
+ol {
+    text-align: start;
+    list-style: decimal;
+    list-style-type: decimal;
+}
+
+ol li {
+    list-style: decimal;
+    list-style-type: decimal;
+}

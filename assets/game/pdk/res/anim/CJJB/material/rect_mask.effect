@@ -1,0 +1,104 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        fxfy: {value: [0,0], target: ratio.xy, editor: {tooltip: "变化的程度, 分量对应的顺序是x轴,y轴"}}
+        rectConfig: {value: [0,0,1,1], target: rect.xyzw, editor: {tooltip: "显示的区域, 为百分比数值, 分量对应的顺序是依次对应左上右下"}}
+}%
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  #if SAMPLE_FROM_RT
+    #include <common/common-define>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+
+  in vec4 color;
+  in vec2 uv0;
+
+  uniform Configs {
+      vec4 ratio;
+      vec4 rect;
+  };
+
+  #pragma builtin(local)
+  layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+
+  // 羽化平滑算法 参数 从左到右 从小到大 从高到底 x 为当前参数值
+  float smooth_pulse(float e0,float e1,float e2 ,float e3,float x)
+  {   
+      return (smoothstep(e0,e1,x) - smoothstep(e2,e3,x));
+  }
+
+  vec4 frag () { 
+    vec4 colorBack = vec4(1, 1, 1, 1);
+     colorBack *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+
+    float e0x = rect.x - ratio.x;
+    float e1x = rect.x + ratio.x;
+    float e2x = rect.z - ratio.x;
+    float e3x = rect.z + ratio.x;
+    
+    float e0y = rect.y - ratio.y;
+    float e1y = rect.y + ratio.y;
+    float e2y = rect.w - ratio.y;
+    float e3y = rect.w + ratio.y;
+
+    float a = smooth_pulse(e0x,e1x,e2x,e3x,uv0.x);
+    a *= smooth_pulse(e0y,e1y,e2y,e3y,uv0.y);
+
+    return colorBack * color * a;
+  }
+}%

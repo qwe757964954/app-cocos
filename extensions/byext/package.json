@@ -1,0 +1,78 @@
+{
+    "name": "byext",
+    "title": "byext",
+    "package_version": 2,
+    "version": "1.0.0",
+    "author": "zzp",
+    "type": "module",
+    "description": "hotupdate/rawassets/preloadBundle等功能",
+    "main": "main.js",
+    "contributions": {
+        "builder": "./builder.js",
+        "menu": [
+            {
+                "path": "i18n:menu.panel/byext",
+                "label": "打开rfs面板",
+                "message": "open-rfs-panel"
+            }
+        ],
+        "messages": {
+            "open-rfs-panel": {
+                "methods": [
+                    "openRFSPanel"
+                ]
+            },
+            "rfs-broadcast": {
+                "methods": [
+                    "rfsBroadcast"
+                ]
+            },
+            "restart-rfsserver": {
+                "methods": [
+                    "restartRFSServer"
+                ]
+            },
+            "rfs-refresh-ui": {
+                "methods": [
+                    "rfs.refreshUI"
+                ]
+            },
+            "query-rfs-info": {
+                "methods": [
+                    "queryRFSInfo"
+                ]
+            }
+        }
+    },
+    "panels": {
+        "rfs": {
+            "title": "rfs面板",
+            "type": "dockable",
+            "main": "panels/rfs",
+            "size": {
+                "min-width": 300,
+                "min-height": 800
+            }
+        }
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^25.0.2",
+        "@rollup/plugin-node-resolve": "^15.1.0",
+        "@rollup/plugin-typescript": "^11.1.1",
+        "@types/fs-extra": "^11.0.1",
+        "@types/node": "^20.3.2",
+        "@types/qrcode": "^1.5.1",
+        "@types/ws": "^8.5.5",
+        "rollup": "^3.25.3",
+        "tslib": "^2.6.0"
+    },
+    "scripts": {
+        "build": "node build.js",
+        "test": "node build.js && xcopy /y /s dist f:\\gitroot\\266-app-cocos\\extensions\\byext\\"
+    },
+    "dependencies": {
+        "fs-extra": "^11.1.1",
+        "qrcode": "^1.5.3",
+        "ws": "^8.13.0"
+    }
+}

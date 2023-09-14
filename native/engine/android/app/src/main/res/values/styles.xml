@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App" parent="@style/Theme.AppCompat" />
+
+    <style name="App.Light" parent="@style/Theme.AppCompat.Light" />
+
+    <style name="App.Light.NoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="App.Light.NoActionBar.windowFullscreen">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>

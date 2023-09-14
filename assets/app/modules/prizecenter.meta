@@ -1,0 +1,18 @@
+{
+  "ver": "1.1.0",
+  "importer": "directory",
+  "imported": true,
+  "uuid": "91b7eb7c-c587-48fb-8f29-5b79a888329b",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "compressionType": {
+      "web-desktop": "merge_all_json",
+      "android": "merge_all_json",
+      "ios": "merge_all_json"
+    },
+    "isRemoteBundle": {},
+    "isBundle": true,
+    "bundleName": "prizeCenter"
+  }
+}

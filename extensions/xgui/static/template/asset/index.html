@@ -1,0 +1,25 @@
+<div>
+    <div id="app">
+        <div class="counter">
+            <ui-prop class="mb-10">
+                <ui-label id="dragName">Asset</ui-label>
+                <ui-asset droppable="cc.ImageAsset" disabled id="dragNode"></ui-asset>
+            </ui-prop>
+            <ui-prop class="mb-10">
+                <ui-label id="dragTypeName">subAssets</ui-label>
+                <ui-select id="selectList"></ui-select>
+            </ui-prop>
+            <ui-prop class="mb-10">
+                <ui-label class="propName">属性名</ui-label>
+                <div class="mb-10-div">
+                    <ui-input id="ipt"></ui-input>
+                    <span id="errTips">属性名不合法，请重新输入...</span>
+                </div>
+            </ui-prop>
+            <ui-prop class="mb-11">
+                <ui-button id="btnOk" type="success">确定</ui-button>
+                <ui-button id="btnNo" type="default">取消</ui-button>
+            </ui-prop>
+        </div>
+    </div>
+</div>

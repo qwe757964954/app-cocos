@@ -1,0 +1,47 @@
+<div id="main" class="content_center">
+    <p>
+        <label>本机ip: </label>
+        <select id="select_ip"></select>
+    </p>
+
+    <p style="display:none;">
+        <label>平台</label>
+        <select id=" select_platform">
+            <option value="android">android</option>
+            <option value="ios">ios</option>
+            <option value="windows">windows</option>
+        </select>
+    </p>
+
+    <div>
+        <img id="img_qr" class="img_qr" />
+    </div>
+
+    <p id="status" class="content_start"></p>
+    
+    <hr />
+    <div class="content_center">
+        <button id="btn_update">传代码到手机</button>
+        <button id="btn_clean">清除手机端的rfs</button>
+        <button id="btn_restart">重启游戏</button>
+    </div>
+    <p></p>
+    <div class="content_center">
+        <button id="btn_restart_server">重启rfs服务</button>
+        <button id="btn_open_build_panel">打开构建面板</button>
+    </div>
+
+    <hr />
+    <div class="content_start">
+
+        <p>
+        <h3>使用方法：</h3>
+        <ol>
+            <li>用手机浏览器扫码，点击 "打开项目"， 打开游戏</li>
+            <li>手动构建</li>
+            <li>点击 "传代码到手机"</li>
+        </ol>
+        </p>
+
+    </div>
+</div>

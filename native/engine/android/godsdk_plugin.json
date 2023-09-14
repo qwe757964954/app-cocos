@@ -1,0 +1,6 @@
+{
+  "cgid":"1385",
+  "serverRequestUrl": "http://192.168.97.14:6000/sdkrequest",
+  "buildTypesFlavor": "dev",
+  "signReleaseAPK": "True"
+}

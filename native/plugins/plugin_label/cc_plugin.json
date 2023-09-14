@@ -1,0 +1,17 @@
+{
+    "name": "bylabel",
+    "version": "0.1.0",
+    "author": "xzben",
+    "engine-version": ">=3.7.3",
+    "modules": [
+        {
+            "target": "bylabel"
+        }
+    ],
+    "platforms": [
+        "windows",
+        "android",
+        "mac",
+        "ios"
+    ]
+}

@@ -1,0 +1,179 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e1cf5fc8-08b8-4934-b1c3-220163694b87",
+  "files": [],
+  "subMetas": {
+    "41ac8": {
+      "importer": "gltf-mesh",
+      "uuid": "e1cf5fc8-08b8-4934-b1c3-220163694b87@41ac8",
+      "displayName": "",
+      "id": "41ac8",
+      "name": "Cube.001.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7d6ab": {
+      "importer": "texture",
+      "uuid": "e1cf5fc8-08b8-4934-b1c3-220163694b87@7d6ab",
+      "displayName": "",
+      "id": "7d6ab",
+      "name": "base_color_texture.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/game/mahjong-hnxinxiang/3D/Texture/Desk.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "68a34": {
+      "importer": "gltf-material",
+      "uuid": "e1cf5fc8-08b8-4934-b1c3-220163694b87@68a34",
+      "displayName": "",
+      "id": "68a34",
+      "name": "desk.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ef2b5": {
+      "importer": "gltf-scene",
+      "uuid": "e1cf5fc8-08b8-4934-b1c3-220163694b87@ef2b5",
+      "displayName": "",
+      "id": "ef2b5",
+      "name": "MJDesk.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "base_color_texture",
+        "uri": "db://assets/game/mahjong-hnxinxiang/3D/Texture/Desk.png"
+      }
+    ],
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e1cf5fc8-08b8-4934-b1c3-220163694b87@ef2b5",
+    "assetFinder": {
+      "meshes": [
+        "e1cf5fc8-08b8-4934-b1c3-220163694b87@41ac8"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e1cf5fc8-08b8-4934-b1c3-220163694b87@7d6ab"
+      ],
+      "materials": [
+        "e1cf5fc8-08b8-4934-b1c3-220163694b87@68a34"
+      ],
+      "scenes": [
+        "e1cf5fc8-08b8-4934-b1c3-220163694b87@ef2b5"
+      ]
+    },
+    "materials": {
+      "e1cf5fc8-08b8-4934-b1c3-220163694b87@68a34": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "DCC_APP_NAME": 2,
+            "USE_ALBEDO_MAP": true,
+            "HAS_EXPORTED_METALLIC": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "99d846a8-b7b9-4df7-b5ea-ec3d8992ee8d@6c48a",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "mainColor": {
+              "__type__": "cc.Color",
+              "r": 231,
+              "g": 231,
+              "b": 231,
+              "a": 255
+            },
+            "shininessExponent": 0,
+            "specularFactor": 0.25,
+            "transparencyFactor": 0
+          },
+          {},
+          {}
+        ]
+      }
+    }
+  }
+}

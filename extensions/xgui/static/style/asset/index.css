@@ -1,0 +1,45 @@
+.counter {
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.mb-10 {
+    margin-bottom: 20px;
+}
+
+.mb-10 :first-child {
+    width: 35%;
+}
+.mb-10 :last-child {
+    width: 64%;
+}
+
+.mb-11 {
+    text-align: center;
+}
+.mb-11 :first-child {
+    margin-right: 10px;
+}
+.mb-11 :last-child {
+    margin-left: 10px;
+}
+.mb-12 {
+    display: flex;
+}
+
+.propName {
+    vertical-align: top;
+}
+.mb-10-div {
+    display: inline-block;
+}
+.mb-10-div :first-child {
+    width: 100%;
+}
+.mb-10-div :last-child {
+    color: rgb(255, 0, 0);
+    position: absolute;
+    display: none;
+}

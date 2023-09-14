@@ -1,0 +1,60 @@
+project:
+    # demo:
+    #     - demo/awesome.proto
+    # base:
+    #     - base/base.proto
+    #     - base/code.proto
+    # bgo:
+    #     - bgo/base/ap.proto
+    #     - bgo/base/online.proto
+    # mpff:
+    #     - mpff/storage/oss.v1.proto
+    #     - mpff/user/passport.v1.proto
+    #     - mpff/social/relation.v1.proto
+    #     - mpff/audit/detect.v1.proto
+    #     - mpff/social/officialaccount.v1.proto
+    #     - mpff/pay/trade.v1.proto
+    #     - mpff/social/feed.v1.proto
+    # tss-common:
+    #     - tss/common/common_define.proto
+    # tss-game:
+    #     - tss/game/config.proto
+    #     - tss/game/table.v2.proto
+    #     - tss/game/fortest.v1.proto
+    #       - tss/game/api.proto
+    # tss-mahjong:
+    #     - tss/mahjong/extendtable.proto 
+    # tss-pdk:
+    #     - tss/pdk/extendtable.v3.proto   
+    # tss-match:
+    #     - tss/match_v2/matematch.v1.proto
+    #     - tss/match_v2/prematch.v1.proto
+    #     - tss/match_v2/officematch.v1.proto
+    #     - tss/match_v2/scheduler.v2.proto
+    #     - tss/match_v2/observer.v1.proto
+    #     - tss/match_v2/list.v1.proto
+    #     - tss/match_v2/appbff.v1.proto
+    #     - tss/match_v2/session.v1.proto
+    # tss-hall:
+    #     - tss/hall/userinfo.v1.proto
+    #     - tss/hall/prizemall.v2.proto
+    #     - tss/hall/prop.v4.proto
+    #     - tss/hall/mail.v2.proto
+    #     - tss/hall/mall.v2.proto
+    #     - tss/hall/buff.v3.proto
+    #     - tss/hall/premiumcardprivilege.v1.proto
+    #     - tss/hall/premiumcard.v1.proto
+    #     - tss/hall/wallet.v2.proto
+    #     - tss/hall/appconf.v1.proto
+    #     - tss/hall/prizesupplier.v1.proto
+    #     - tss/hall/activityhub.v2.proto
+    #     - tss/hall/sendpresent.v1.proto
+    #     - tss/hall/customersvc.v1.proto
+    #     - tss/hall/appbff.v1.proto
+    # tss-thailand:
+    #     - tss/thailand/dummy.proto
+
+proj_path: ../../
+output_path: ../../assets/idl
+idl_path: $IDLPATH
+namespace:

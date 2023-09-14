@@ -1,0 +1,48 @@
+project(":266").buildscript {
+    repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/google"
+        }
+        maven {
+            url "https://maven.aliyun.com/repository/public"
+        }
+        maven {
+            url "http://192.168.97.14:8081/repository/maven-public/"
+            allowInsecureProtocol true
+        }
+        maven {
+            url "http://192.168.200.199:8089/repository/maven-public/"
+            allowInsecureProtocol true
+        }
+    }
+    dependencies {
+        classpath 'com.boyaa.plugin:sdkConfigPlugin:1.0.40'
+    }
+}
+
+
+allprojects {
+    repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/google"
+        }
+        maven {
+            url "https://maven.aliyun.com/repository/public"
+        }
+        maven {
+            url "http://192.168.97.14:8081/repository/maven-public/"
+            allowInsecureProtocol true
+        }
+        maven {
+            url "http://192.168.200.199:8089/repository/maven-public/"
+            allowInsecureProtocol true
+        }
+        mavenCentral()
+        google()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

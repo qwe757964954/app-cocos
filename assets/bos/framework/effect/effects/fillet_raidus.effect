@@ -1,0 +1,181 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        objectSize: {value: [100,100], target: u_objectSize.xy, editor:{tooltip: "view的内容尺寸"}}
+        radiusLT: {value: 15, target: u_radius.x, editor:{tooltip: "左上圆角半径"}}
+        radiusRT: {value: 15, target: u_radius.y, editor:{tooltip: "右上圆角半径"}}
+        radiusRB: {value: 15, target: u_radius.z, editor:{tooltip: "右下圆角半径"}}
+        radiusLB: {value: 15, target: u_radius.w, editor:{tooltip: "左下圆角半径"}}
+}%
+      
+CCProgram sprite-vs %{ 
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  #if SAMPLE_FROM_RT    
+    #include <common/common-define>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+
+  in vec4 color;
+  in vec2 uv0;
+
+  uniform Configs {
+      vec4 u_objectSize;
+      vec4 u_radius;
+  };
+
+  #pragma builtin(local)
+  layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+
+  const float SQRT_2 = 1.414;
+  
+  vec4 frag()                                        
+  {                                                
+    //把坐标系原点设置在纹理中点  
+    vec2 uv = uv0;
+    vec4 uc = CCSampleWithAlphaSeparated(cc_spriteTexture,uv0)*color;
+    
+    float maxRadius = u_objectSize.x >= u_objectSize.y ? u_objectSize.y/2.0 : u_objectSize.x/2.0;
+    float ratio = u_objectSize.x/u_objectSize.y;
+    
+    
+    //左上角
+    float destRadius = u_radius.x > maxRadius ? maxRadius : u_radius.x;
+    float destRadiusX = destRadius/u_objectSize.x;
+    float destRadiusY = destRadius/u_objectSize.y;
+    float lt = step(uv.x,0.5)*step(uv.y,0.5);
+    vec2 ltc = vec2(destRadiusX,destRadiusY);
+    float ltp = step(uv.x,ltc.x)*step(uv.y,ltc.y);
+    vec2 disLT = vec2((uv.x - ltc.x), (uv.y - ltc.y) / ratio);
+    float ltlen = length(disLT) * u_objectSize.x;
+    float radiusDiffLT = destRadius - ltlen;
+    float lts = smoothstep(-1.0,1.0,radiusDiffLT);
+    //可见
+    float LTCS = lt * (ltp * lts + ( 1.0 - ltp));
+    #if USE_LT
+      float LTAS = LTCS;
+    #else
+      float LTAS = LTCS + lt * ltp * (1.0-LTCS);
+    #endif
+
+    //右上角
+    destRadius = u_radius.y > maxRadius ? maxRadius : u_radius.y;
+    destRadiusX = destRadius/u_objectSize.x;
+    destRadiusY = destRadius/u_objectSize.y;
+    float rt = step(0.5,uv.x)*step(uv.y,0.5);
+    vec2 rtc = vec2(1.0-destRadiusX,destRadiusY);
+    float rtp = step(rtc.x,uv.x)*step(uv.y,rtc.y);
+    vec2 disRT = vec2((uv.x - rtc.x), (uv.y - rtc.y) / ratio);
+    float rtlen = length(disRT) * u_objectSize.x;
+    float radiusDiffRT = destRadius - rtlen;
+    float rts = smoothstep(-1.0,1.0,radiusDiffRT);
+    //可见
+    float RTCS = rt*(rtp*rts + ( 1.0 - rtp));
+    #if USE_RT
+      float RTAS = RTCS;
+    #else
+      float RTAS = RTCS + rt*rtp*(1.0-RTCS);
+    #endif
+
+    //右下角
+    destRadius = u_radius.z > maxRadius ? maxRadius : u_radius.z;
+    destRadiusX = destRadius/u_objectSize.x;
+    destRadiusY = destRadius/u_objectSize.y;
+    float rb = step(0.5,uv.x)*step(0.5,uv.y);
+    vec2 rbc = vec2(1.0-destRadiusX,1.0-destRadiusY);
+    float rbp = step(rbc.x,uv.x)*step(rbc.y,uv.y);
+    vec2 disRB = vec2((uv.x - rbc.x), (uv.y - rbc.y) / ratio);
+    float rblen = length(disRB) * u_objectSize.x;
+    float radiusDiffRB = destRadius - rblen;
+    float rbs = smoothstep(-1.0,1.0,radiusDiffRB);
+    //可见
+    float RBCS = rb*(rbp*rbs + ( 1.0 - rbp));
+    #if USE_RB
+      float RBAS = RBCS;
+    #else
+      float RBAS = RBCS + rb*rbp*(1.0-RBCS);
+    #endif
+
+    //左下角
+    destRadius = u_radius.w > maxRadius ? maxRadius : u_radius.w;
+    destRadiusX = destRadius/u_objectSize.x;
+    destRadiusY = destRadius/u_objectSize.y;
+    float lb = step(uv.x,0.5)*step(0.5,uv.y);
+    vec2 lbc = vec2(destRadiusX,1.0-destRadiusY);
+    float lbp = step(uv.x,lbc.x)*step(lbc.y,uv.y);
+    vec2 disLB = vec2((uv.x - lbc.x), (uv.y - lbc.y) / ratio);
+    float lblen = length(disLB) * u_objectSize.x;
+    float radiusDiffLB = destRadius - lblen;
+    float lbs = smoothstep(-1.0,1.0,radiusDiffLB);
+    //可见
+    float LBCS = lb*(lbp*lbs + ( 1.0 - lbp));
+    #if USE_LB
+      float LBAS = LBCS;
+    #else
+      float LBAS = LBCS + lb*lbp*(1.0-LBCS);
+    #endif
+
+
+    float a = min(LTAS+LBAS+RTAS+RBAS,1.0);
+
+    #if IS_INVERSE
+      a = (1.0 - a);
+    #endif  
+    
+    uc.a *= a;
+
+    return uc;
+  }
+}%

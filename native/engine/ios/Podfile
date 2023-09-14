@@ -1,0 +1,30 @@
+
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://code.266.com/BoyaaIDE/Rbbin.git'
+
+
+platform :ios, '11.0'
+
+def boyaaPods #通用pods集
+  pod 'QsdkCocosKit', '~> 2.1.3'
+  # pod 'BYCocosKit', '~> 0.1.0'
+  # pod 'TSQuickUpdateKit', '~> 1.0.4'
+  # pod 'BYDeviceKit', '~> 1.4.5'
+  # pod 'TSQuickUpdateKit', '~> 1.0.4'
+  # pod 'TSQsdkKit', '~> 1.3.3'
+  # pod 'BoyaaMapKit', '~> 1.0.03'
+end
+
+target '266' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for JYGame-dev
+  boyaaPods
+end
+
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+  end
+end

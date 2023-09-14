@@ -1,0 +1,12 @@
+{
+    "name":"p_zip",
+    "version":"0.1.0",
+    "author":"zzp",
+    "engine-version":">=3.6.0",
+    "modules":[
+        {
+            "target":"p_zip"
+        }
+    ],
+    "platforms":["windows", "android", "mac", "ios"]
+}

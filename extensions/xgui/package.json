@@ -1,0 +1,75 @@
+{
+    "package_version": 2,
+    "version": "1.0.0",
+    "name": "xgui",
+    "description": "i18n:xgui.description",
+    "main": "./dist/main.js",
+    "dependencies": {
+        "vue": "^3.1.4"
+    },
+    "devDependencies": {
+        "@types/node": "^16.0.1",
+        "typescript": "^4.3.4"
+    },
+    "panels": {
+        "asset": {
+            "title": "导出",
+            "type": "dockable",
+            "main": "dist/panels/asset/index.js",
+            "size": {
+                "min-width": 440,
+                "min-height": 240,
+                "width": 440,
+                "height": 240
+            }
+        }
+    },
+    "contributions": {
+        "scene": {
+            "script": "./dist/scene.js"
+        },
+        "hierarchy": {
+            "menu": {
+                "methods": "./dist/menu/NodeMenu.js",
+                "createMenu": "onNodeCreateMenu",
+                "rootMenu": "onRootMenu",
+                "nodeMenu": "onNodeMenu"
+            }
+        },
+        "inspector": {
+            "section": {
+                "node": {
+                    "cc.Component": "./dist/contributions/inspector/CustomComponent.js"
+                }
+            }
+        },
+        "messages": {
+            "hide-panel": {
+                "methods": [
+                    "hidePanel"
+                ]
+            },
+            "show-panel": {
+                "methods": [
+                    "showPanel"
+                ]
+            },
+            "delete-panel": {
+                "methods": [
+                    "deletePanel"
+                ]
+            },
+            "init-asset-panel": {
+                "methods": [
+                    "asset.initPanel"
+                ]
+            }
+        }
+    },
+    "author": "xzben",
+    "editor": ">=3.7.3",
+    "scripts": {
+        "build": "tsc -b",
+        "watch": "tsc -w"
+    }
+}

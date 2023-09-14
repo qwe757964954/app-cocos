@@ -1,0 +1,12 @@
+{
+    "imports": {
+        "bos/": "./assets/bos/",
+        "qsdk/": "./assets/qsdk/",
+        "app/": "./assets/app/",
+        "game/": "./assets/game/",
+        "launch/": "./assets/launch/",
+        "quickupdate/":"./assets/quickupdate/",
+        "idl/":"./assets/idl/",
+        "platform/":"./assets/platform/"
+    }
+}

@@ -1,0 +1,118 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        innerColor: {value: [1,1,1,1], target: iColor, editor: {type: color, tooltip: "光的内颜色"}}
+        width: {value: 0.5, target: configs.x, editor: {range: [0, 2, [0.1]], tooltip: "光的宽度"}}
+        offset: {value: 0.5, target: configs.y, editor: {range: [-3, 3, [0.1]], tooltip: "光的位移"}}
+        angle: {value: 45, target: configs.z, editor: {range: [0, 360, [1]], tooltip: "光旋转的角度"}}
+        factor: {value: 1, target: configs.w, editor: {range:[0, 10], tooltip: "强度"}}
+}%
+
+CCProgram sprite-vs %{ 
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  #if SAMPLE_FROM_RT    
+    #include <common/common-define>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+
+  in vec4 color;
+  in vec2 uv0;
+
+  uniform Configs {
+      vec4 configs;
+      vec4 iColor; //property名字不能跟uniform一样不然不会在面板上显示,文档居然都没说一下
+  };
+
+  #pragma builtin(local)
+  layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+
+  const float SQRT_2 = 1.414;
+		
+  vec2 rotate(vec2 v2, float degree)
+  {
+    float rad = radians(degree); //角度转弧度
+    mat2 rotMat;//旋转矩阵 
+    rotMat[0][0] = cos(rad); 
+          rotMat[0][1] = sin(rad);
+          rotMat[1][0] = -rotMat[0][1];
+          rotMat[1][1] = rotMat[0][0];
+    return v2 * rotMat;
+  }
+  
+  vec4 frag()                                        
+  {                                                
+    vec4 texColor = CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+   
+    vec2 after = uv0;      
+    after = 2.0 * after - 1.0;
+    after = rotate(after, configs.z - 45.0);
+    
+    float distance = abs(after.x + after.y - configs.y)/SQRT_2; 
+        
+    distance = 1.0 - (1.0 / configs.x) * distance;
+    distance = max(distance, 0.0);
+    
+    vec4 flashColor = vec4(0.0);
+    flashColor.rgb = iColor.rgb * distance;
+    flashColor.a = distance;
+    
+    float alpha = flashColor.a*texColor.a;
+    
+    texColor.rgb += flashColor.rgb * alpha * configs.w;
+    
+    return color * texColor;
+  }
+}%

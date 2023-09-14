@@ -1,0 +1,65 @@
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>打开项目</title>
+</head>
+
+<body>
+	<h1>
+		<a id="link" href="boyaarfsundefined://connectrfs:80/?ip=undefined&amp;port=undefined">点击打开</a>
+	</h1>
+	<p id="url">boyaarfsundefined://connectrfs:80/?ip=undefined&amp;port=undefined</p>
+	<ul>
+		<li>请在浏览器中打开</li>
+		<li>请留意这里的ip和你的手机的ip是否同一网段</li>
+		<li>打开后如果没有连接成功，请按home键将app放到后台，再重新打开app</li>
+		<li>实在不行就杀掉app，再多试几次</li>
+		<li>如果手机和电脑的ip没变动，此页面可以重复使用，不需要每次都重新扫码</li>
+	</ul>
+
+	<hr>
+
+	<div>
+		<p>
+			你的电脑有多个ip，如果上面的不对，请尝试下面的链接。
+			<strong>(选择与你的手机在同网段的ip)</strong>
+		</p>
+		<ul id="ips">
+
+		</ul>
+	</div>
+
+	<script>
+		// project, ips, port
+
+		let search = window.location.search.substring(1)
+		let strs = search.split("&")
+		let kvs = {}
+		for (let str of strs) {
+			let data = str.split("=")
+			kvs[data[0]] = data[1]
+		}
+		console.log(window.location.href)
+		console.log(kvs)
+		let ips = kvs.ips.split(",")
+		console.log("ips")
+		console.log(ips)
+
+		let parent = document.getElementById("ips")
+		for (const ip of ips) {
+			let li = document.createElement("li")
+			let url = `boyaarfs${kvs.project}://${ip}/${kvs.port}`
+			li.innerHTML = `<h3><a href=${url}>${ip}</url</h3>`
+			parent.appendChild(li)
+		}
+		let url = `boyaarfs${kvs.project}://${ips[0]}/${kvs.port}`
+		document.getElementById("link").setAttribute("href", url)
+		document.getElementById("url").innerHTML = url
+	</script>
+
+
+</body>
+
+</html>

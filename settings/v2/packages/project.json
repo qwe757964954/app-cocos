@@ -1,0 +1,36 @@
+{
+  "__version__": "1.0.4",
+  "script": {
+    "useDefineForClassFields": false,
+    "allowDeclareFields": false,
+    "importMap": "project://import-map.json"
+  },
+  "general": {
+    "designResolution": {
+      "width": 1080,
+      "height": 1920,
+      "fitWidth": true,
+      "fitHeight": true
+    }
+  },
+  "layer": [
+    {
+      "name": "canvas_19",
+      "value": 524288
+    },
+    {
+      "name": "PERSIST",
+      "value": 1
+    },
+    {
+      "name": "RTT",
+      "value": 2
+    }
+  ],
+  "fbx": {
+    "legacyFbxImporter": {
+      "visible": true
+    }
+  },
+  "custom_joint_texture_layouts": []
+}
